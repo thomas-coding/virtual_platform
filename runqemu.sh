@@ -16,6 +16,7 @@ fi
 qemu_option+=" -machine thomas-a15 -m 256"
 qemu_option+=" -kernel ${shell_folder}/arm-trusted-firmware/build/a15/debug/bl1/bl1.elf"
 qemu_option+=" -serial stdio"
+qemu_option+=" -device loader,file=${shell_folder}/arm-trusted-firmware/build/a15/debug/bl2.bin,addr=0x00100000"
 qemu_option+=" -d guest_errors"
 # Run qemu
 #qemu/build/arm-softmmu/qemu-system-arm ${qemu_option}

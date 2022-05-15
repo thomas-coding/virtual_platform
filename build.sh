@@ -37,7 +37,7 @@ build_atf() {
 	cd ${shell_folder}/arm-trusted-firmware
 	rm -rf build
 
-	make bl1 ARCH=aarch32 PLAT=a15 CROSS_COMPILE=arm-none-linux-gnueabihf- \
+	make bl1 bl2 ARCH=aarch32 PLAT=a15 CROSS_COMPILE=arm-none-linux-gnueabihf- \
 		DEBUG=1
 
 	finish_time=${SECONDS}
