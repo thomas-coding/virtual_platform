@@ -13,5 +13,6 @@ arm-none-eabi-gdb \
 -ex "add-symbol-file ${shell_folder}/arm-trusted-firmware/build/a15/debug/bl1/bl1.elf" \
 -ex "add-symbol-file ${shell_folder}/arm-trusted-firmware/build/a15/debug/bl2/bl2.elf" \
 -ex "add-symbol-file ${shell_folder}/arm-trusted-firmware/build/a15/debug/bl32/bl32.elf" \
+-ex "add-symbol-file ${shell_folder}/u-boot/u-boot" \
 -q
  

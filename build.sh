@@ -12,6 +12,7 @@ cmd_help() {
 	echo "Basic mode:"
 	echo "$0 h			---> Command help"
 	echo "$0 qemu		---> Build qemu"
+	echo "$0 u-boot		---> Build u-boot"
 	echo "$0 atf		---> Build arm trusted firmware "
 }
 
@@ -47,6 +48,24 @@ build_atf() {
 	exit	
 }
 
+build_u-boot() {
+	echo "Build u-boot ..."
+	start_time=${SECONDS}
+
+	cd ${shell_folder}/u-boot
+	make clean
+	make a15_defconfig
+	make
+	rm -f u-boot.asm
+	${CROSS_COMPILE}objdump -xd u-boot > u-boot.asm
+
+	finish_time=${SECONDS}
+	duration=$((finish_time-start_time))
+	elapsed_time="$((duration / 60))m $((duration % 60))s"
+	echo -e  "u-boot used:${elapsed_time}"
+	exit	
+}
+
 if [[ $1  = "h" ]]; then
 	cmd_help
 	exit
@@ -55,6 +74,9 @@ elif [[ $1  = "qemu" ]]; then
 	exit
 elif [[ $1  = "atf" ]]; then
 	build_atf
+	exit
+elif [[ $1  = "u-boot" ]]; then
+	build_u-boot
 	exit
 else
 	echo "wrong args."
