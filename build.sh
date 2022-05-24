@@ -13,7 +13,10 @@ cmd_help() {
 	echo "$0 h			---> Command help"
 	echo "$0 qemu		---> Build qemu"
 	echo "$0 u-boot		---> Build u-boot"
+	echo "$0 linux		---> Build linux"
 	echo "$0 atf		---> Build arm trusted firmware "
+	echo "$0 rootfs		---> Build rootfs "
+	echo "$0 all		---> Build all "
 }
 
 build_qemu() {
@@ -66,6 +69,39 @@ build_u-boot() {
 	exit	
 }
 
+build_linux() {
+	echo "Build linux ..."
+	start_time=${SECONDS}
+	export LOADADDR=0x25008000
+	cd ${shell_folder}/linux
+	make a15_defconfig
+	make -j2
+	rm -f vmlinux.asm
+	${CROSS_COMPILE}objdump -xd vmlinux > vmlinux.asm
+	${CROSS_COMPILE}objdump -xd arch/arm/boot/compressed/vmlinux > arch/arm/boot/compressed/vmlinux.asm
+
+	finish_time=${SECONDS}
+	duration=$((finish_time-start_time))
+	elapsed_time="$((duration / 60))m $((duration % 60))s"
+	echo -e  "linux used:${elapsed_time}"
+	exit
+}
+
+build_rootfs() {
+	echo "Build rootfs ..."
+	start_time=${SECONDS}
+
+	cd ${shell_folder}/buildroot
+	make a15_defconfig
+	make
+
+	finish_time=${SECONDS}
+	duration=$((finish_time-start_time))
+	elapsed_time="$((duration / 60))m $((duration % 60))s"
+	echo -e  "rootfs used:${elapsed_time}"
+	exit
+}
+
 if [[ $1  = "h" ]]; then
 	cmd_help
 	exit
@@ -77,6 +113,19 @@ elif [[ $1  = "atf" ]]; then
 	exit
 elif [[ $1  = "u-boot" ]]; then
 	build_u-boot
+	exit
+elif [[ $1  = "linux" ]]; then
+	build_linux
+	exit
+elif [[ $1  = "rootfs" ]]; then
+	build_rootfs
+	exit
+elif [[ $1  = "all" ]]; then
+	build_qemu
+	build_atf
+	build_u-boot
+	build_linux
+	build_rootfs
 	exit
 else
 	echo "wrong args."
