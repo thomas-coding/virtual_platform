@@ -19,6 +19,8 @@ qemu_option+=" -serial stdio"
 qemu_option+=" -device loader,file=${shell_folder}/arm-trusted-firmware/build/a15/debug/bl2.bin,addr=0x00100000"
 qemu_option+=" -device loader,file=${shell_folder}/arm-trusted-firmware/build/a15/debug/bl32.bin,addr=0x00200000"
 qemu_option+=" -device loader,file=${shell_folder}/u-boot/u-boot.bin,addr=0x20000000"
+#qemu_option+=" -device loader,file=${shell_folder}/linux/arch/arm/boot/uImage,addr=0x25000000"
+#qemu_option+=" -device loader,file=${shell_folder}/linux/arch/arm/boot/dts/a15.dtb,addr=0x26000000"
 qemu_option+=" -d guest_errors"
 # Run qemu
 #qemu/build/arm-softmmu/qemu-system-arm ${qemu_option}

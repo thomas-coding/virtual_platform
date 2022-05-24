@@ -14,5 +14,7 @@ arm-none-eabi-gdb \
 -ex "add-symbol-file ${shell_folder}/arm-trusted-firmware/build/a15/debug/bl2/bl2.elf" \
 -ex "add-symbol-file ${shell_folder}/arm-trusted-firmware/build/a15/debug/bl32/bl32.elf" \
 -ex "add-symbol-file ${shell_folder}/u-boot/u-boot" \
+-ex "restore ${shell_folder}/linux/arch/arm/boot/uImage binary 0x25000000" \
+-ex "restore ${shell_folder}/linux/arch/arm/boot/dts/a15.dtb binary 0x26000000" \
 -q
  

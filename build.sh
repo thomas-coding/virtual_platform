@@ -3,8 +3,14 @@
 # shell folder
 shell_folder=$(cd "$(dirname "$0")" || exit;pwd)
 
+# For toolchain
 export PATH="/root/workspace/.toolchains/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf/bin/:$PATH"
 export PATH="/home/cn1396/.toolchain/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf/bin/:$PATH"
+
+# For mkimage tool make uImage
+export PATH="${shell_folder}/u-boot/tools:$PATH"
+
+# For cross compile
 export ARCH=arm
 export CROSS_COMPILE=arm-none-linux-gnueabihf-
 
@@ -72,10 +78,11 @@ build_u-boot() {
 build_linux() {
 	echo "Build linux ..."
 	start_time=${SECONDS}
-	export LOADADDR=0x25008000
+	# used for make uImage
+	export LOADADDR=0x21008000
 	cd ${shell_folder}/linux
 	make a15_defconfig
-	make -j2
+	make -j2 uImage
 	rm -f vmlinux.asm
 	${CROSS_COMPILE}objdump -xd vmlinux > vmlinux.asm
 	${CROSS_COMPILE}objdump -xd arch/arm/boot/compressed/vmlinux > arch/arm/boot/compressed/vmlinux.asm
