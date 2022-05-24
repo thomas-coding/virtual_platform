@@ -16,5 +16,6 @@ arm-none-eabi-gdb \
 -ex "add-symbol-file ${shell_folder}/u-boot/u-boot" \
 -ex "restore ${shell_folder}/linux/arch/arm/boot/uImage binary 0x25000000" \
 -ex "restore ${shell_folder}/linux/arch/arm/boot/dts/a15.dtb binary 0x26000000" \
+-ex "restore ${shell_folder}/buildroot/output/images/rootfs.cpio.uboot binary 0x28000000" \
 -q
  

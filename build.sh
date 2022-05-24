@@ -8,7 +8,7 @@ export PATH="/root/workspace/.toolchains/gcc-arm-10.3-2021.07-x86_64-arm-none-li
 export PATH="/home/cn1396/.toolchain/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf/bin/:$PATH"
 
 # For mkimage tool make uImage
-export PATH="${shell_folder}/u-boot/tools:$PATH"
+export PATH="/root/workspace/code/virtual_platform/u-boot/tools:$PATH"
 
 # For cross compile
 export ARCH=arm
@@ -101,6 +101,8 @@ build_rootfs() {
 	cd ${shell_folder}/buildroot
 	make a15_defconfig
 	make
+	rm -f output/images/rootfs.cpio.uboot
+	mkimage -A arm -O linux -T ramdisk -C none -a 0x2c000000 -n "ramdisk" -d  output/images/rootfs.cpio output/images/rootfs.cpio.uboot
 
 	finish_time=${SECONDS}
 	duration=$((finish_time-start_time))
