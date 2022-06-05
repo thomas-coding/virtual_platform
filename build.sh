@@ -82,6 +82,7 @@ build_linux() {
 	export LOADADDR=0x21008000
 	cd ${shell_folder}/linux
 	make a15_defconfig
+	make
 	make -j2 uImage
 	rm -f vmlinux.asm
 	${CROSS_COMPILE}objdump -xd vmlinux > vmlinux.asm
